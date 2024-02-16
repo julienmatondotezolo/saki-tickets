@@ -4,7 +4,11 @@
  
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --primary-pink: #f1d5db;
+    --secondary-pink: #e19fae;
+    --tertiary-pink: #c15b75;
+
+    --background: #faf5f6;
     --foreground: 224 71.4% 4.1%;
 
     --card: 0 0% 100%;
@@ -13,8 +17,8 @@
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
  
-    --primary: 220.9 39.3% 11%;
-    --primary-foreground: 210 20% 98%;
+    --primary: #f1d5db;
+    --primary-foreground: #f6ebee;
  
     --secondary: 220 14.3% 95.9%;
     --secondary-foreground: 220.9 39.3% 11%;
@@ -36,8 +40,8 @@
   }
  
   .dark {
-    --background: 224 71.4% 4.1%;
-    --foreground: 210 20% 98%;
+    --background: #030712;
+    --foreground: #f6ebee;
  
     --card: 224 71.4% 4.1%;
     --card-foreground: 210 20% 98%;
@@ -45,8 +49,8 @@
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
  
-    --primary: 210 20% 98%;
-    --primary-foreground: 220.9 39.3% 11%;
+    --primary: #f1d5db;
+    --primary-foreground: #ffffff;
  
     --secondary: 215 27.9% 16.9%;
     --secondary-foreground: 210 20% 98%;
@@ -73,4 +77,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .gradientPink {
+      @apply bg-gradient-to-r from-primary-pink to-secondary-pink
+  }
+
+  .gradientPinkDark {
+    @apply bg-gradient-to-r from-secondary-pink to-tertiary-pink
+}
 }

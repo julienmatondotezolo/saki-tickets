@@ -75,7 +75,7 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        className={`relative group flex flex-col items-center ${isDraggingOver ? "border-pink-500" : ""} border-dashed border-2 p-5 text-center min-h-24 mb-4 rounded-lg hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30 cursor-pointer`}
+        className={`relative group flex flex-col items-center ${isDraggingOver ? "border-secondary-pink" : ""} border-dashed border-2 p-5 text-center min-h-24 mb-4 rounded-lg hover:border-pink-100 hover:bg-pink-50 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30`}
       >
         <Image
           className="relative dark:drop-shadow-[0_0_0.3rem_#FFCDF46A] dark:invert mb-4 opacity-50 transition-all duration-200 ease-in-out group-hover:scale-110 group-hover:opacity-100"
@@ -91,7 +91,7 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
           type="file"
           accept=".pdf"
           id="pdf-upload"
-          className="absolute top-0 left-0 right-0 bottom-0 opacity-0"
+          className="absolute top-0 left-0 right-0 bottom-0 opacity-0 cursor-pointer"
           onChange={(e) => setFile(e.target.files?.[0])}
           required
         />
