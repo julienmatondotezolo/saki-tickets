@@ -2,14 +2,13 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import React from "react";
 
+import darkmodeIcon from "@/assets/icons/darkmode.svg";
+import lightmodeIcon from "@/assets/icons/lightmode.svg";
+
 function ThemeSwitch() {
   const { setTheme, resolvedTheme } = useTheme();
 
-  console.log("resolvedTheme:", resolvedTheme);
   const size = 17;
-
-  const darkmodeIcon = "/darkmode.svg";
-  const lightmodeIcon = "/lightmode.svg";
 
   const toggleDarkMode = () => {
     if (resolvedTheme === "dark") {
