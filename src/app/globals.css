@@ -80,6 +80,10 @@
 }
 
 @layer components {
+  .gradientWhiteText {
+    @apply bg-gradient-to-br from-foreground to-blue-200 text-transparent bg-clip-text
+  }
+
   .gradientPink {
       @apply bg-gradient-to-r from-primary-pink to-secondary-pink
   }
