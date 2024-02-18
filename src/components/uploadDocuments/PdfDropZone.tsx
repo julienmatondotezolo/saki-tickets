@@ -64,8 +64,6 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
         throw new Error(errorText);
       }
 
-      console.log("res:", res);
-
       // Read the response as a Blob
       const blob = await res.blob();
 

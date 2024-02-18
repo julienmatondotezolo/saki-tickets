@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import React from "react";
@@ -29,7 +31,7 @@ function ThemeSwitch() {
           src={resolvedTheme === "dark" ? lightmodeIcon : darkmodeIcon}
           width={size}
           height={size}
-          alt="Profile icon"
+          alt={resolvedTheme === "dark" ? "Light mode icon" : "Dark mode icon"}
         />
         <p>{resolvedTheme === "dark" ? "Light mode" : "Dark mode"}</p>
       </button>
@@ -37,4 +39,4 @@ function ThemeSwitch() {
   );
 }
 
-export { ThemeSwitch };
+export default ThemeSwitch;

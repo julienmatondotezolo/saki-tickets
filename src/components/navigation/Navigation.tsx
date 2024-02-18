@@ -1,7 +1,8 @@
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
 
-import { ThemeSwitch } from "./themeSwitch";
+const ThemeSwitch = dynamic(() => import("./themeSwitch"), { ssr: false });
 
 function Navigation() {
   return (
