@@ -124,9 +124,12 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
         {file ? (
           <section className="flex items-center justify-between pb-2 border-b-2 mb-4">
             <p className="font-medium">{file.name}</p>
-            <p className="cursor-pointer text-sm w-9 p-2 bg-gray-100 dark:bg-neutral-800 rounded-full text-center">
+            <button
+              className="cursor-pointer text-sm w-9 p-2 bg-gray-100 dark:bg-neutral-800 rounded-full text-center"
+              onClick={() => setFile(undefined)}
+            >
               x
-            </p>
+            </button>
           </section>
         ) : (
           ""
