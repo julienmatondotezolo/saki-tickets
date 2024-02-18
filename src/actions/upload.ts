@@ -4,8 +4,6 @@ import { join } from "path";
 async function upload(data: FormData) {
   "use server";
 
-  console.log("data:", data);
-
   const file: File | null = data.get("file") as unknown as File;
 
   if (!file) {
@@ -20,7 +18,6 @@ async function upload(data: FormData) {
   const path = join("/", "tmp", file.name);
 
   await writeFile(path, buffer);
-  console.log(`open ${path} to see the uploaded file`);
 
   return { success: true };
 }
