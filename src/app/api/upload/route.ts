@@ -8,17 +8,19 @@ export async function POST(request: NextRequest) {
 
   try {
     // Get the ArrayBuffer from the request
-    const bytes = await request.arrayBuffer();
+    const pdfBytes = await request.arrayBuffer();
 
     // Load the PDFDocument from the ArrayBuffer
-    const pdfDoc = await PDFDocument.load(bytes);
+    const pdfDoc = await PDFDocument.load(pdfBytes);
 
     // Crop each page of the PDF
     const pages = pdfDoc.getPages();
-    const croppedPages = [];
 
-    for (const page of pages) {
-      // Define the crop box dimensions (you can adjust these as needed)
+    // Check if the PDF has more than 1 page
+    if (pages.length < 2) {
+      // Accéder à la page à rogner
+      const page = pdfDoc.getPages()[0];
+
       const cropBox = {
         x: 0,
         y: 0,
@@ -29,29 +31,27 @@ export async function POST(request: NextRequest) {
       // Create a new page with the crop box dimensions
       const newPage = pdfDoc.addPage([cropBox.width, cropBox.height]);
 
-      // Embed the original page into the document
-      const embeddedPage = await pdfDoc.embedPage(page);
+      const num = 220;
 
-      // Draw the original page onto the new page, offset by the crop box's coordinates
-      newPage.drawPage(embeddedPage, {
-        x: -cropBox.x,
-        y: -cropBox.y,
-        width: 2455,
-        height: page.getHeight(),
+      // Embed the original page into the document
+      const embeddedPage = await pdfDoc.embedPage(page, {
+        left: 0,
+        right: 595,
+        bottom: 200 + num,
+        top: 615 + num,
       });
 
-      // Add the new page to the list of cropped pages
-      croppedPages.push(newPage);
-    }
+      // Check if the PDF has more than 1 page
+      newPage.drawPage(embeddedPage, {
+        x: cropBox.x,
+        y: cropBox.y,
+        width: cropBox.width,
+        height: cropBox.height,
+      });
 
-    // Remove the original pages
-    for (let i = pages.length - 1; i >= 0; i--) {
-      pdfDoc.removePage(i);
-    }
-
-    // Add the cropped pages back to the document
-    for (const page of croppedPages) {
-      pdfDoc.addPage(page);
+      pdfDoc.removePage(0);
+    } else {
+      console.error("PDF has more than 1 page");
     }
 
     // Save the modified PDF
