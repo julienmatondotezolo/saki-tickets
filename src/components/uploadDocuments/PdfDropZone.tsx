@@ -7,7 +7,7 @@ interface PdfDropZoneProps {}
 
 const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const [file, setFile] = useState<File>();
+  const [file, setFile] = useState<File | null>();
 
   const handleDragOver = useCallback(
     (event: React.DragEvent<HTMLDivElement>) => {
@@ -39,6 +39,23 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
 
     if (fileList.length) {
       setFile(fileList[0]);
+
+      // Get the file input element
+      const fileInput = document.getElementById(
+        "pdf-upload",
+      ) as HTMLInputElement;
+
+      // Clear the input before appending the new files
+      fileInput.value = "";
+
+      // Append the files to the input
+      fileList.forEach((file) => {
+        const fileItem = new File([file], file.name, { type: file.type });
+        const dataTransfer = new DataTransfer();
+
+        dataTransfer.items.add(fileItem);
+        fileInput.files = dataTransfer.files;
+      });
     } else {
       console.error("Only PDF files are allowed.");
     }
@@ -124,7 +141,7 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
             <p className="font-medium">{file.name}</p>
             <button
               className="cursor-pointer text-sm w-9 p-2 bg-gray-100 dark:bg-neutral-800 rounded-full text-center"
-              onClick={() => setFile(undefined)}
+              onClick={() => setFile(null)}
             >
               x
             </button>
