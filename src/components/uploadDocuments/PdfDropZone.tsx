@@ -7,7 +7,6 @@ interface PdfDropZoneProps {}
 
 const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
   const [isDraggingOver, setIsDraggingOver] = useState(false);
-  const [files, setFiles] = useState<File[]>();
   const [file, setFile] = useState<File>();
 
   const handleDragOver = useCallback(
@@ -39,11 +38,9 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
     );
 
     if (fileList.length) {
-      setFiles(fileList);
-      // Process the PDF files here
-      console.log("PDF files dropped:", fileList);
+      setFile(fileList[0]);
     } else {
-      console.log("Only PDF files are allowed.");
+      console.error("Only PDF files are allowed.");
     }
   }, []);
 
@@ -60,9 +57,36 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
         method: "POST",
         body: data,
       });
-      // handle the error
 
-      if (!res.ok) throw new Error(await res.text());
+      if (!res.ok) {
+        const errorText = await res.text();
+
+        throw new Error(errorText);
+      }
+
+      console.log("res:", res);
+
+      // Read the response as a Blob
+      const blob = await res.blob();
+
+      // Create a URL for the Blob
+      const url = URL.createObjectURL(blob);
+
+      // Create a temporary anchor element to trigger the download
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = "cropped.pdf"; // You can set your preferred filename here
+
+      // Append the anchor to the document body and click it to start the download
+      document.body.appendChild(link);
+      link.click();
+
+      // Clean up after the download is initiated
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      setFile(undefined);
     } catch (e: any) {
       // Handle errors here
       console.error(e);
@@ -97,17 +121,16 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
         />
       </div>
       <article className="w-full">
-        {files?.map((file, i) => (
-          <section
-            key={i}
-            className="flex items-center justify-between pb-2 border-b-2 mb-4"
-          >
+        {file ? (
+          <section className="flex items-center justify-between pb-2 border-b-2 mb-4">
             <p className="font-medium">{file.name}</p>
             <p className="cursor-pointer text-sm w-9 p-2 bg-gray-100 dark:bg-neutral-800 rounded-full text-center">
               x
             </p>
           </section>
-        ))}
+        ) : (
+          ""
+        )}
       </article>
       <Button type="submit" className="w-full">
         Upload
