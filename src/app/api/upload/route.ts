@@ -24,24 +24,21 @@ export async function POST(request: NextRequest) {
       const cropBox = {
         x: 0,
         y: 0,
-        width: 2455,
-        height: 1708,
+        width: 400 + 100,
+        height: 800,
       };
 
       // Create a new page with the crop box dimensions
       const newPage = pdfDoc.addPage([cropBox.width, cropBox.height]);
 
-      const num = 220;
-
       // Embed the original page into the document
       const embeddedPage = await pdfDoc.embedPage(page, {
-        left: 0,
-        right: 595,
-        bottom: 200 + num,
-        top: 615 + num,
+        left: 19.75 + 7,
+        right: 397.01 - 95,
+        bottom: 303.18 + 98,
+        top: 822.25,
       });
 
-      // Check if the PDF has more than 1 page
       newPage.drawPage(embeddedPage, {
         x: cropBox.x,
         y: cropBox.y,

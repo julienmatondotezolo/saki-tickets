@@ -150,9 +150,11 @@ const PdfDropZone: React.FC<PdfDropZoneProps> = () => {
           ""
         )}
       </article>
-      <Button type="submit" className="w-full">
-        Upload
-      </Button>
+      {file && (
+        <Button type="submit" className="w-full">
+          Upload
+        </Button>
+      )}
     </form>
   );
 };
